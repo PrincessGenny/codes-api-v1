@@ -44,4 +44,10 @@ var routes = Routes {
 		"/module/{module}",
 		ModuleShow,
 	},
+	Route{
+		"FieldShow",
+		"GET",
+		"/field/{field}",
+		FieldShow,
+	},
 }
