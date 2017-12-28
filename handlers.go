@@ -74,6 +74,31 @@ func ModuleShow(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func FieldShow(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	var field string
+	var err error
+	if field = vars["field"]; err != nil {
+		panic(err)
+	}
+	codes := RepoFindCodeByField(field)
+	if len(codes) > 0 {
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		if err := json.NewEncoder(w).Encode(codes); err != nil {
+			panic(err)
+		}
+		return
+	}
+
+	//404 if not found
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusNotFound)
+	if err := json.NewEncoder(w).Encode(jsonErr{Code: http.StatusNotFound, Text: "Not found"}); err != nil {
+		panic(err)
+	}
+}
+
 func CodeCreate(w http.ResponseWriter, r *http.Request) {
 	var code Code
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))

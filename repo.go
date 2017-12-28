@@ -49,6 +49,17 @@ func RepoFindCodeByModule(module string) Codes {
 	return moduleCodes
 }
 
+func RepoFindCodeByField(field string) Codes {
+	fieldCodes := Codes{}
+	for _, c := range codes {
+		if c.Field == field {
+			fieldCodes = append(fieldCodes, c)
+		}
+	}
+	//return empty code if not found
+	return fieldCodes
+}
+
 func RepoCreateCode(c Code) Code {
 	currentId += 1
 	c.Id = currentId
